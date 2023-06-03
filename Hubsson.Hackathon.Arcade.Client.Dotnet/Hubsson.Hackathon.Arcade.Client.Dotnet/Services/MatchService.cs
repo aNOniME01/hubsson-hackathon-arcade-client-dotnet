@@ -87,7 +87,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             private bool CanGoUp()
             {
                 bool up = true;
-                if (Player.coordinates.Last().y <= 1)
+                if (Player.coordinates.Last().y - 1 <= -1)
                 {
                     up = false;
                 }
@@ -109,7 +109,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             private bool CanGoDown(int height)
             {
                 bool down = true;
-                if (Player.coordinates.Last().y >= height-1)
+                if (Player.coordinates.Last().y +1 >= height)
                 {
                     down = false;
                 }
@@ -118,7 +118,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
                 {
                     foreach (var cord in player.coordinates)
                     {
-                        if (cord.x == Player.coordinates[Player.coordinates.Length - 1].x && cord.y == Player.coordinates[Player.coordinates.Length - 1].y + 1)
+                        if (cord.x == Player.coordinates.Last().x && cord.y == Player.coordinates.Last().y + 1)
                         {
                             down = false;
                         }
@@ -131,7 +131,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             private bool CanGoLeft()
             {
                 bool left = true;
-                if (Player.coordinates[Player.coordinates.Length - 1].x <= 1)
+                if (Player.coordinates.Last().x -1 <= -1)
                 {
                     left = false;
                 }
@@ -140,7 +140,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
                 {
                     foreach (var cord in player.coordinates)
                     {
-                        if (cord.x == Player.coordinates[Player.coordinates.Length - 1].x - 1 && cord.y == Player.coordinates[Player.coordinates.Length - 1].y)
+                        if (cord.x == Player.coordinates.Last().x - 1 && cord.y == Player.coordinates.Last().y)
                         {
                             left = false;
                         }
@@ -153,7 +153,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             private bool CanGoRight(int width)
             {
                 bool right = true;
-                if (Player.coordinates[Player.coordinates.Length - 1].x >= width-1)
+                if (Player.coordinates.Last().x +1 >= width)
                 {
                     right = false;
                 }
@@ -162,7 +162,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
                 {
                     foreach (var cord in player.coordinates)
                     {
-                        if (cord.x == Player.coordinates[Player.coordinates.Length - 1].x + 1 && cord.y == Player.coordinates[Player.coordinates.Length - 1].y)
+                        if (cord.x == Player.coordinates.Last().x + 1 && cord.y == Player.coordinates.Last().y)
                         {
                             right = false;
                         }

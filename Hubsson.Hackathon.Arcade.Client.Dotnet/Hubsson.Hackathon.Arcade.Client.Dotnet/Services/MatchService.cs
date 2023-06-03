@@ -36,81 +36,175 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             matchRepository.GetPlayer("JIF-PT34728");
 
             matchRepository.CheckWaypoints();
+            ShortestRoute((int)matchRepository.Waypoints[0].X, (int)matchRepository.Waypoints[0].Y);
 
             matchRepository.CanMove(gameState.height, gameState.width);
-            ShortestRoute(gameState);
 
 
-            if (matchRepository.AvalibleDirections[0])
-            {
-                return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
-            }
-            else if (matchRepository.AvalibleDirections[1])
-            {
-                return new Domain.Action() { direction = Domain.Direction.Down, iteration = gameState.iteration };
-            }
-            else if (matchRepository.AvalibleDirections[2])
-            {
-                return new Domain.Action() { direction = Domain.Direction.Left, iteration = gameState.iteration };
-            }
-            else if (matchRepository.AvalibleDirections[3])
-            {
-                return new Domain.Action() { direction = Domain.Direction.Right, iteration = gameState.iteration };
-            }
+            //if (matchRepository.AvalibleDirections[0])
+            //{
+            //    return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
+            //}
+            //else if (matchRepository.AvalibleDirections[1])
+            //{
+            //    return new Domain.Action() { direction = Domain.Direction.Down, iteration = gameState.iteration };
+            //}
+            //else if (matchRepository.AvalibleDirections[2])
+            //{
+            //    return new Domain.Action() { direction = Domain.Direction.Left, iteration = gameState.iteration };
+            //}
+            //else if (matchRepository.AvalibleDirections[3])
+            //{
+            //    return new Domain.Action() { direction = Domain.Direction.Right, iteration = gameState.iteration };
+            //}
 
             throw new NotImplementedException();
         }
-        
-        private List<Direction> ShortestRoute(ClientGameState gameState)
+
+        private List<Direction> ShortestRoute(/*ClientGameState gameState,*/ int x, int y)
         {
             MatchRepository matchRepository = _matchRepository;
 
             List<Direction> shortestRoute = new List<Direction>();
 
-            matchRepository.Players = gameState.players;
-            matchRepository.GetPlayer("JIF-PT34728");
-            matchRepository.CanMove(gameState.height, gameState.width);
+            //matchRepository.Players = gameState.players;
+            //matchRepository.CanMove(gameState.height, gameState.width);
 
             Coordinate start = _matchRepository.Player.coordinates.Last();
-            Coordinate destination = _matchRepository.Players.FirstOrDefault(x => x.playerId != _matchRepository.Player.playerId).coordinates.Last();
+            //Coordinate destination = _matchRepository.Players.FirstOrDefault(x => x.playerId != _matchRepository.Player.playerId).coordinates.Last();
 
-            int distanceBetweenStar_End_X = destination.x - start.x;
-            int distanceBetweenStar_End_Y = destination.y - start.y;
-            if (distanceBetweenStar_End_X < 0)
+            int distanceBetweenHardcoded_X = x - start.x;
+            int distanceBetweenHardcoded_Y = y - start.y;
+
+            //int distanceBetweenStar_End_X = destination.x - start.x;
+            //int distanceBetweenStar_End_Y = destination.y - start.y;
+
+            //if (distanceBetweenStar_End_Y < 0)
+            //{
+            //    for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
+            //    {
+            //        shortestRoute.Add(Direction.Left);
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
+            //    {
+            //        shortestRoute.Add(Direction.Right);
+            //    }
+            //}
+            //Console.WriteLine(shortestRoute.Last());
+            //Console.WriteLine($"start x: {start.y}, dest x: {destination.y}, distance: {distanceBetweenStar_End_Y}");
+            //if (distanceBetweenStar_End_X < 0)
+            //{
+            //    for (int i = 0; i < Math.Abs(distanceBetweenStar_End_X); i++)
+            //    {
+            //        shortestRoute.Add(Direction.Down);
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < distanceBetweenStar_End_X; i++)
+            //    {
+            //        shortestRoute.Add(Direction.Up);
+            //    }
+            //}
+
+            if (distanceBetweenHardcoded_X != 0 && distanceBetweenHardcoded_Y == 0)
             {
-                for (int i = 0; i < Math.Abs(distanceBetweenStar_End_X); i++)
+                if (distanceBetweenHardcoded_X < 0)
                 {
-                    shortestRoute.Add(Direction.Down);
+                    for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_X); i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Left);
+                    }
+                }
+                if (distanceBetweenHardcoded_X > 0)
+                {
+                    for (int i = 0; i < distanceBetweenHardcoded_X; i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Right);
+                    }
+                }
+                if (distanceBetweenHardcoded_Y < 0)
+                {
+                    for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_Y); i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Right);
+                    }
+                }
+                if (distanceBetweenHardcoded_Y > 0)
+                {
+                    for (int i = 0; i < (distanceBetweenHardcoded_Y); i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Left);
+                    }
                 }
             }
             else
             {
-                for (int i = 0; i < distanceBetweenStar_End_X; i++)
+                if (distanceBetweenHardcoded_X < 0)
                 {
-                    shortestRoute.Add(Direction.Up);
+                    for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_X); i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Down);
+                    }
+                }
+                if (distanceBetweenHardcoded_X > 0)
+                {
+                    for (int i = 0; i < distanceBetweenHardcoded_X; i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Up);
+                    }
+                }
+                if (distanceBetweenHardcoded_Y < 0)
+                {
+                    for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_Y); i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Up);
+                    }
+                }
+                if (distanceBetweenHardcoded_Y > 0)
+                {
+                    for (int i = 0; i < (distanceBetweenHardcoded_Y); i++)
+                    {
+                        shortestRoute.Add(Domain.Direction.Down);
+                    }
                 }
             }
 
-            if (distanceBetweenStar_End_Y < 0)
-            {
-                for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
-                {
-                    shortestRoute.Add(Direction.Left);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
-                {
-                    shortestRoute.Add(Direction.Right);
-                }
-            }
             Console.WriteLine(shortestRoute.Last());
-            Console.WriteLine($"start x: {start.x}, dest x: {destination.x}, distance: {distanceBetweenStar_End_X}");
-            return shortestRoute;
-            
-        }
+            Console.WriteLine($"start x: {start.x}, dest x: {x}, distance: {distanceBetweenHardcoded_X}");
 
+            //if (distanceBetweenHardcoded_Y != 0 && distanceBetweenHardcoded_X == 0)
+            //{
+
+            //}
+            //else
+            //{
+            //    if (distanceBetweenHardcoded_Y < 0)
+            //    {
+            //        for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_Y); i++)
+            //        {
+            //            shortestRoute.Add(Domain.Direction.Right);
+            //        }
+            //    }
+            //    if (distanceBetweenHardcoded_Y > 0)
+            //    {
+            //        for (int i = 0; i < (distanceBetweenHardcoded_Y); i++)
+            //        {
+            //            shortestRoute.Add(Domain.Direction.Left);
+            //        }
+            //    }
+            //}
+
+            Console.WriteLine(shortestRoute.Last());
+            Console.WriteLine($"start y: {start.y}, dest y: {y}, distance: {distanceBetweenHardcoded_Y}");
+
+
+            return shortestRoute;
+
+        }
         private class MatchRepository
         {
             // Write your data fields here what you would like to store between the match rounds

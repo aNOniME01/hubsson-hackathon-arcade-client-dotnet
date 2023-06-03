@@ -115,9 +115,32 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             public List<Direction> ShortestRoute { get; set; }
 
             public List<Vector2> Waypoints { get; set; }
+
+            private Random rnd = new Random();
             public MatchRepository()
             {
                 Waypoints = new List<Vector2>();
+                Waypoints.Add(new Vector2(rnd.Next(0, 50), rnd.Next(0, 50)));
+                Waypoints.Add(new Vector2(rnd.Next(0, 50), rnd.Next(0, 50)));
+                Waypoints.Add(new Vector2(rnd.Next(0, 50), rnd.Next(0, 50)));
+            }
+
+
+            public void CheckWaypoints()
+            {
+                foreach (var player in Players)
+                {
+                    foreach (var cord in player.coordinates)
+                    {
+                        if (Waypoints.Count > 0)
+                        {
+                            if (Waypoints[0].X == cord.x && Waypoints[0].Y == cord.y)
+                            {
+                                Waypoints.Remove(Waypoints[0]);
+                            }
+                        }
+                    }
+                }
             }
 
             public void GetPlayer(string pId) => Player = Players.FirstOrDefault(x => x.playerId == pId);

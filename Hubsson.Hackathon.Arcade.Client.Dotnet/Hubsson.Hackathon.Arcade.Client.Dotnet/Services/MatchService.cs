@@ -58,59 +58,24 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             //    return new Domain.Action() { direction = Domain.Direction.Right, iteration = gameState.iteration };
             //}
 
-            return new Domain.Action() { direction = ShortestRoute(50, 20)[0], iteration = gameState.iteration };
+            return new Domain.Action() { direction = ShortestRoute(50, 20), iteration = gameState.iteration };
         }
 
  
 
-        private List<Direction> ShortestRoute(/*ClientGameState gameState,*/ int x, int y)
+        private Direction ShortestRoute(int x, int y)
         {
             MatchRepository matchRepository = _matchRepository;
 
-            List<Direction> shortestRoute = new List<Direction>();
+            Direction shortestRoute = Direction.Up;
 
-            //matchRepository.Players = gameState.players;
-            //matchRepository.CanMove(gameState.height, gameState.width);
 
             Coordinate start = _matchRepository.Player.coordinates.Last();
-            //Coordinate destination = _matchRepository.Players.FirstOrDefault(x => x.playerId != _matchRepository.Player.playerId).coordinates.Last();
+
 
             int distanceBetweenHardcoded_X = x - start.x;
             int distanceBetweenHardcoded_Y = y - start.y;
 
-            //int distanceBetweenStar_End_X = destination.x - start.x;
-            //int distanceBetweenStar_End_Y = destination.y - start.y;
-
-            //if (distanceBetweenStar_End_Y < 0)
-            //{
-            //    for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
-            //    {
-            //        shortestRoute.Add(Direction.Left);
-            //    }
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
-            //    {
-            //        shortestRoute.Add(Direction.Right);
-            //    }
-            //}
-            //Console.WriteLine(shortestRoute.Last());
-            //Console.WriteLine($"start x: {start.y}, dest x: {destination.y}, distance: {distanceBetweenStar_End_Y}");
-            //if (distanceBetweenStar_End_X < 0)
-            //{
-            //    for (int i = 0; i < Math.Abs(distanceBetweenStar_End_X); i++)
-            //    {
-            //        shortestRoute.Add(Direction.Down);
-            //    }
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < distanceBetweenStar_End_X; i++)
-            //    {
-            //        shortestRoute.Add(Direction.Up);
-            //    }
-            //}
 
             if (distanceBetweenHardcoded_X != 0 && distanceBetweenHardcoded_Y == 0)
             {
@@ -118,28 +83,28 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
                 {
                     for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_X); i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Left);
+                        shortestRoute =Domain.Direction.Left;
                     }
                 }
                 if (distanceBetweenHardcoded_X > 0)
                 {
                     for (int i = 0; i < distanceBetweenHardcoded_X; i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Right);
+                        shortestRoute = Domain.Direction.Right;
                     }
                 }
                 if (distanceBetweenHardcoded_Y < 0)
                 {
                     for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_Y); i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Right);
+                        shortestRoute = Domain.Direction.Right;
                     }
                 }
                 if (distanceBetweenHardcoded_Y > 0)
                 {
                     for (int i = 0; i < (distanceBetweenHardcoded_Y); i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Left);
+                        shortestRoute = Domain.Direction.Left;
                     }
                 }
             }
@@ -149,60 +114,31 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
                 {
                     for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_X); i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Down);
+                        shortestRoute = Domain.Direction.Down;
                     }
                 }
                 if (distanceBetweenHardcoded_X > 0)
                 {
                     for (int i = 0; i < distanceBetweenHardcoded_X; i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Up);
+                        shortestRoute =Domain.Direction.Up;
                     }
                 }
                 if (distanceBetweenHardcoded_Y < 0)
                 {
                     for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_Y); i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Up);
+                        shortestRoute = Domain.Direction.Up;
                     }
                 }
                 if (distanceBetweenHardcoded_Y > 0)
                 {
                     for (int i = 0; i < (distanceBetweenHardcoded_Y); i++)
                     {
-                        shortestRoute.Add(Domain.Direction.Down);
+                        shortestRoute =Domain.Direction.Down;
                     }
                 }
             }
-
-            Console.WriteLine(shortestRoute.Last());
-            Console.WriteLine($"start x: {start.x}, dest x: {x}, distance: {distanceBetweenHardcoded_X}");
-
-            //if (distanceBetweenHardcoded_Y != 0 && distanceBetweenHardcoded_X == 0)
-            //{
-
-            //}
-            //else
-            //{
-            //    if (distanceBetweenHardcoded_Y < 0)
-            //    {
-            //        for (int i = 0; i < Math.Abs(distanceBetweenHardcoded_Y); i++)
-            //        {
-            //            shortestRoute.Add(Domain.Direction.Right);
-            //        }
-            //    }
-            //    if (distanceBetweenHardcoded_Y > 0)
-            //    {
-            //        for (int i = 0; i < (distanceBetweenHardcoded_Y); i++)
-            //        {
-            //            shortestRoute.Add(Domain.Direction.Left);
-            //        }
-            //    }
-            //}
-
-            Console.WriteLine(shortestRoute.Last());
-            Console.WriteLine($"start y: {start.y}, dest y: {y}, distance: {distanceBetweenHardcoded_Y}");
-
 
             return shortestRoute;
 
@@ -223,9 +159,10 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             public MatchRepository()
             {
                 Waypoints = new List<Vector2>();
-                Waypoints.Add(new Vector2(rnd.Next(0, 50), rnd.Next(0, 50)));
-                Waypoints.Add(new Vector2(rnd.Next(0, 50), rnd.Next(0, 50)));
-                Waypoints.Add(new Vector2(rnd.Next(0, 50), rnd.Next(0, 50)));
+                Waypoints.Add(new Vector2(rnd.Next(1, Height-1), rnd.Next(1, Width-1)));
+                Waypoints.Add(new Vector2(rnd.Next(1, Height-1), rnd.Next(1, Width-1)));
+                Waypoints.Add(new Vector2(rnd.Next(1, Height-1), rnd.Next(1, Width-1)));
+                Waypoints.Add(new Vector2(rnd.Next(1, Height-1), rnd.Next(1, Width-1)));
             }
 
 

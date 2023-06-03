@@ -177,6 +177,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
                             if (Waypoints[0].X == cord.x && Waypoints[0].Y == cord.y)
                             {
                                 Waypoints.Remove(Waypoints[0]);
+                                Waypoints.Add(new Vector2(rnd.Next(1, Height - 1), rnd.Next(1, Width - 1)));
                             }
                         }
                     }

@@ -1,4 +1,5 @@
 ﻿using Hubsson.Hackathon.Arcade.Client.Dotnet.Contracts;
+using Hubsson.Hackathon.Arcade.Client.Dotnet.Domain;
 using System;
 using System.Dynamic;
 using ClientGameState = Hubsson.Hackathon.Arcade.Client.Dotnet.Domain.ClientGameState;
@@ -31,6 +32,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             matchRepository.Players = gameState.players;
             matchRepository.GetPlayer("JIF-PT34728");
             matchRepository.CanMove(gameState.height, gameState.width);
+            ShortestRoute(gameState);
 
 
             if (matchRepository.AvalibleDirections[0])
@@ -52,6 +54,55 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
 
             throw new NotImplementedException();
         }
+        private List<Direction> ShortestRoute(ClientGameState gameState)
+        {
+            MatchRepository matchRepository = _matchRepository;
+
+            List<Direction> shortestRoute = new List<Direction>();
+
+            matchRepository.Players = gameState.players;
+            matchRepository.GetPlayer("JIF-PT34728");
+            matchRepository.CanMove(gameState.height, gameState.width);
+
+            Coordinate start = _matchRepository.Player.coordinates.Last();
+            Coordinate destination = _matchRepository.Players.FirstOrDefault(x => x.playerId != _matchRepository.Player.playerId).coordinates.Last();
+
+            int distanceBetweenStar_End_X = destination.x - start.x;
+            int distanceBetweenStar_End_Y = destination.y - start.y;
+            if (distanceBetweenStar_End_X < 0)
+            {
+                for (int i = 0; i < Math.Abs(distanceBetweenStar_End_X); i++)
+                {
+                    shortestRoute.Add(Direction.Down);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < distanceBetweenStar_End_X; i++)
+                {
+                    shortestRoute.Add(Direction.Up);
+                }
+            }
+
+            if (distanceBetweenStar_End_Y < 0)
+            {
+                for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
+                {
+                    shortestRoute.Add(Direction.Left);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Math.Abs(distanceBetweenStar_End_Y); i++)
+                {
+                    shortestRoute.Add(Direction.Right);
+                }
+            }
+            Console.WriteLine(shortestRoute.Last());
+            Console.WriteLine($"start x: {start.x}, dest x: {destination.x}, distance: {distanceBetweenStar_End_X}");
+            return shortestRoute;
+            
+        }
 
         private class MatchRepository
         {
@@ -59,7 +110,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             public PlayerCoordinates[] Players { get; set; }
             public PlayerCoordinates Player { get; set; }
             public bool[] AvalibleDirections { get; set; } // 0 = up, 1 = down, 2 = left, 3 = right
-
+            public List<Direction> ShortestRoute { get; set; }
             public void GetPlayer(string pId) => Player = Players.FirstOrDefault(x => x.playerId == pId);
 
             #region CanMove

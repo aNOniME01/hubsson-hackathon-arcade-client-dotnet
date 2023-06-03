@@ -1,5 +1,6 @@
 ﻿using Hubsson.Hackathon.Arcade.Client.Dotnet.Contracts;
 using System;
+using System.Dynamic;
 using ClientGameState = Hubsson.Hackathon.Arcade.Client.Dotnet.Domain.ClientGameState;
 
 namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
@@ -26,15 +27,149 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             // On Each Frame Update return an Action for your player
 
             MatchRepository matchRepository = _matchRepository;
-            matchRepository.PlayerCords = gameState.players;
-            
-            return new Domain.Action() { direction= Domain.Direction.Right, iteration = gameState.iteration };
+
+            matchRepository.Players = gameState.players;
+            matchRepository.CanMove(gameState.height, gameState.width);
+
+            if (matchRepository.AvalibleDirections[0])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
+            }
+            else if (matchRepository.AvalibleDirections[1])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
+            }
+            else if (matchRepository.AvalibleDirections[2])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
+            }
+            else if (matchRepository.AvalibleDirections[3])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
+            }
+
+            throw new NotImplementedException();
         }
 
         private class MatchRepository
         {
             // Write your data fields here what you would like to store between the match rounds
-            public PlayerCoordinates[] PlayerCords { get; set; }
+            public PlayerCoordinates[] Players { get; set; }
+            public PlayerCoordinates Player { get; set; }
+            public bool[] AvalibleDirections { get; set; } // 0 = up, 1 = down, 2 = left, 3 = right
+
+            #region CanMove
+
+            public void CanMove(int height, int width)
+            {
+                AvalibleDirections = new bool[] { false, false, false, false };
+                if (CanGoUp())
+                {
+                    AvalibleDirections[0] = true;
+                }
+                if (CanGoDown(height))
+                {
+                    AvalibleDirections[1] = true;
+                }
+                if (CanGoLeft())
+                {
+                    AvalibleDirections[2] = true;
+                }
+                if (CanGoRight(width))
+                {
+                    AvalibleDirections[3] = true;
+                }
+            }
+            private bool CanGoUp()
+            {
+                bool up = true;
+                if (Player.coordinates[Player.coordinates.Length - 1].y <= 0)
+                {
+                    up = false;
+                }
+
+                foreach (var player in Players)
+                {
+                    foreach (var cord in player.coordinates)
+                    {
+                        if (cord.x == Player.coordinates[Player.coordinates.Length - 1].x && cord.y == Player.coordinates[Player.coordinates.Length - 1].y - 1)
+                        {
+                            up = false;
+                        }
+                    }
+                }
+
+                return up;
+
+            }
+            private bool CanGoDown(int height)
+            {
+                bool down = true;
+                if (Player.coordinates[Player.coordinates.Length - 1].y >= height)
+                {
+                    down = false;
+                }
+
+                foreach (var player in Players)
+                {
+                    foreach (var cord in player.coordinates)
+                    {
+                        if (cord.x == Player.coordinates[Player.coordinates.Length - 1].x && cord.y == Player.coordinates[Player.coordinates.Length - 1].y + 1)
+                        {
+                            down = false;
+                        }
+                    }
+                }
+
+                return down;
+
+            }
+            private bool CanGoLeft()
+            {
+                bool left = true;
+                if (Player.coordinates[Player.coordinates.Length - 1].x <= 0)
+                {
+                    left = false;
+                }
+
+                foreach (var player in Players)
+                {
+                    foreach (var cord in player.coordinates)
+                    {
+                        if (cord.x == Player.coordinates[Player.coordinates.Length - 1].x - 1 && cord.y == Player.coordinates[Player.coordinates.Length - 1].y)
+                        {
+                            left = false;
+                        }
+                    }
+                }
+
+                return left;
+
+            }
+            private bool CanGoRight(int width)
+            {
+                bool right = true;
+                if (Player.coordinates[Player.coordinates.Length - 1].x >= width)
+                {
+                    right = false;
+                }
+
+                foreach (var player in Players)
+                {
+                    foreach (var cord in player.coordinates)
+                    {
+                        if (cord.x == Player.coordinates[Player.coordinates.Length - 1].x + 1 && cord.y == Player.coordinates[Player.coordinates.Length - 1].y)
+                        {
+                            right = false;
+                        }
+                    }
+                }
+
+                return right;
+
+            }
+
+            #endregion
 
         }
     }

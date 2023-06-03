@@ -36,27 +36,27 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             matchRepository.GetPlayer("JIF-PT34728");
 
             matchRepository.CheckWaypoints();
-            ShortestRoute((int)matchRepository.Waypoints[0].X, (int)matchRepository.Waypoints[0].Y);
+            //ShortestRoute((int)matchRepository.Waypoints[0].X, (int)matchRepository.Waypoints[0].Y);
 
             matchRepository.CanMove(gameState.height, gameState.width);
 
 
-            //if (matchRepository.AvalibleDirections[0])
-            //{
-            //    return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
-            //}
-            //else if (matchRepository.AvalibleDirections[1])
-            //{
-            //    return new Domain.Action() { direction = Domain.Direction.Down, iteration = gameState.iteration };
-            //}
-            //else if (matchRepository.AvalibleDirections[2])
-            //{
-            //    return new Domain.Action() { direction = Domain.Direction.Left, iteration = gameState.iteration };
-            //}
-            //else if (matchRepository.AvalibleDirections[3])
-            //{
-            //    return new Domain.Action() { direction = Domain.Direction.Right, iteration = gameState.iteration };
-            //}
+            if (matchRepository.AvalibleDirections[0])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Up, iteration = gameState.iteration };
+            }
+            else if (matchRepository.AvalibleDirections[1])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Down, iteration = gameState.iteration };
+            }
+            else if (matchRepository.AvalibleDirections[2])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Left, iteration = gameState.iteration };
+            }
+            else if (matchRepository.AvalibleDirections[3])
+            {
+                return new Domain.Action() { direction = Domain.Direction.Right, iteration = gameState.iteration };
+            }
 
             throw new NotImplementedException();
         }

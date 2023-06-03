@@ -25,11 +25,13 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
         public Hubsson.Hackathon.Arcade.Client.Dotnet.Domain.Action Update(ClientGameState gameState)
         {
             // On Each Frame Update return an Action for your player
-
             MatchRepository matchRepository = _matchRepository;
+            
 
             matchRepository.Players = gameState.players;
+            matchRepository.GetPlayer("JIF-PT34728");
             matchRepository.CanMove(gameState.height, gameState.width);
+
 
             if (matchRepository.AvalibleDirections[0])
             {
@@ -58,6 +60,8 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             public PlayerCoordinates Player { get; set; }
             public bool[] AvalibleDirections { get; set; } // 0 = up, 1 = down, 2 = left, 3 = right
 
+            public void GetPlayer(string pId) => Player = Players.FirstOrDefault(x => x.playerId == pId);
+
             #region CanMove
 
             public void CanMove(int height, int width)
@@ -83,7 +87,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             private bool CanGoUp()
             {
                 bool up = true;
-                if (Player.coordinates[Player.coordinates.Length - 1].y <= 0)
+                if (Player.coordinates[Player.coordinates.Length - 1].y <= 1)
                 {
                     up = false;
                 }

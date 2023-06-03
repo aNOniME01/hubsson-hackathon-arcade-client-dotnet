@@ -28,10 +28,15 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
         {
             // On Each Frame Update return an Action for your player
             MatchRepository matchRepository = _matchRepository;
-            
+
+            matchRepository.Height = gameState.height;
+            matchRepository.Width = gameState.width;
 
             matchRepository.Players = gameState.players;
             matchRepository.GetPlayer("JIF-PT34728");
+
+            matchRepository.CheckWaypoints();
+
             matchRepository.CanMove(gameState.height, gameState.width);
             ShortestRoute(gameState);
 
@@ -111,6 +116,8 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             // Write your data fields here what you would like to store between the match rounds
             public PlayerCoordinates[] Players { get; set; }
             public PlayerCoordinates Player { get; set; }
+            public int Width { get; set; }
+            public int Height { get; set; }
             public bool[] AvalibleDirections { get; set; } // 0 = up, 1 = down, 2 = left, 3 = right
             public List<Direction> ShortestRoute { get; set; }
 

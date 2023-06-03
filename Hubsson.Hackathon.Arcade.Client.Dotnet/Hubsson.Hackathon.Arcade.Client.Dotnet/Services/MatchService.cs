@@ -2,6 +2,7 @@
 using Hubsson.Hackathon.Arcade.Client.Dotnet.Domain;
 using System;
 using System.Dynamic;
+using System.Numerics;
 using ClientGameState = Hubsson.Hackathon.Arcade.Client.Dotnet.Domain.ClientGameState;
 
 namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
@@ -54,6 +55,7 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
 
             throw new NotImplementedException();
         }
+        
         private List<Direction> ShortestRoute(ClientGameState gameState)
         {
             MatchRepository matchRepository = _matchRepository;
@@ -111,6 +113,13 @@ namespace Hubsson.Hackathon.Arcade.Client.Dotnet.Services
             public PlayerCoordinates Player { get; set; }
             public bool[] AvalibleDirections { get; set; } // 0 = up, 1 = down, 2 = left, 3 = right
             public List<Direction> ShortestRoute { get; set; }
+
+            public List<Vector2> Waypoints { get; set; }
+            public MatchRepository()
+            {
+                Waypoints = new List<Vector2>();
+            }
+
             public void GetPlayer(string pId) => Player = Players.FirstOrDefault(x => x.playerId == pId);
 
             #region CanMove
